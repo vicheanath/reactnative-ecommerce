@@ -1,200 +1,63 @@
-import React from 'react';
-import { Platform, StyleSheet, AsyncStorage } from 'react-native';
 
-import {
-  createStackNavigator,
-  createBottomTabNavigator,
-  createSwitchNavigator,
-  createAppContainer
-} from 'react-navigation';
+import { Login, Register, Home, Cart, Category, Profile } from './../screens'
 
-import FullLoading from '../components/FullLoading';
 
-// Auth
-import { Login, Register } from './../screens';
+import * as React from 'react';
+import { StatusBar, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import TabBarIcon from './TabBarIcon';
-import Colors from '../constants/Colors';
-import ThemedTabBar from './ThemedTabBar';
+import { Home as HomeIcon, Category as CategoryIcon, Cart as CartIcon, Profile as ProfileIcon, } from './images';
+import TabComponents from './Tap'
 
-import { USER_ACCESS_TOKEN } from './../constants/auth'
-
-const Home = createStackNavigator(
-  {
-    Home: {
-      screen: Home
-    }
-  },
-  {
-    headerMode: 'none',
-    navigationOptions: {
-      tabBarLabel: 'Home',
-      tabBarIcon: ({ focused }) => (
-        <TabBarIcon
-          focused={focused}
-          name={Platform.OS === 'ios' ? 'ios-albums' : 'md-albums'}
-        />
-      )
-    }
-  }
-);
-
-const Category = createStackNavigator(
-  {
-    Category: { screen: Category }
-  },
-  {
-    headerMode: 'none',
-    navigationOptions: ({ navigation }) => {
-      const navParams = navigation.state.routes[0].params;
-      const tabBarVisible = navParams ? navParams.tabBarVisible : true;
-
-      return {
-        tabBarVisible,
-        tabBarLabel: 'Category',
-        tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={Platform.OS === 'ios' ? 'ios-pulse' : 'md-pulse'}
-          />
-        )
-      };
-    }
-  }
-);
-const Cart = createStackNavigator(
-  {
-    Cart: { screen: Cart }
-  },
-  {
-    headerMode: 'none',
-    navigationOptions: ({ navigation }) => {
-      const navParams = navigation.state.routes[0].params;
-      const tabBarVisible = navParams ? navParams.tabBarVisible : true;
-
-      return {
-        tabBarVisible,
-        tabBarLabel: 'Cart',
-        tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={Platform.OS === 'ios' ? 'ios-pulse' : 'md-pulse'}
-          />
-        )
-      };
-    }
-  }
-);
-const Account = createStackNavigator(
-  {
-    Account: { screen: Account }
-  },
-  {
-    headerMode: 'none',
-    navigationOptions: ({ navigation }) => {
-      const navParams = navigation.state.routes[0].params;
-      const tabBarVisible = navParams ? navParams.tabBarVisible : true;
-
-      return {
-        tabBarVisible,
-        tabBarLabel: 'Account',
-        tabBarIcon: ({ focused }) => (
-          <TabBarIcon
-            focused={focused}
-            name={Platform.OS === 'ios' ? 'ios-pulse' : 'md-pulse'}
-          />
-        )
-      };
-    }
-  }
-);
-
-const AppTabs = createBottomTabNavigator(
-  {
-    Home: { screen: Home },
-    Category: { screen: Category },
-    Cart: { screen: Cart },
-    Account: { screen: Account }
-  },
-  {
-    initialRouteName: 'Home',
-    order: ['Home', 'Category', 'Cart', 'Account'],
-    tabBarComponent: ThemedTabBar
-  }
-);
-
-const AppRoutes = createStackNavigator(
-  {
-    AppTabs: { screen: AppTabs },
-    Home: { screen: Home }
-  },
-  {
-    initialRouteName: 'AppTabs',
-    headerMode: 'none'
-  }
-);
-
-const AuthStack = createStackNavigator(
-  {
-    Login: { screen: Login },
-    Register: { screen: Register }
-  },
-  {
-    headerMode: 'none'
-  }
-);
-
-class Switch extends React.PureComponent {
-  constructor() {
-    super();
-    this._bootstrapAsync();
-  }
-
-  componentDidMount() {
-    // LoginManager.logOut();
-    // Alert.alert("XXX", JSON.stringify(this.props.client.clearStore, null, 2));
-    // this.props.client.resetStore();
-    // this.props.navigation.navigate("Auth");
-    // this.props.client.clearStore();
-  }
-
-  // Fetch the token from storage then navigate to our appropriate place
-  _bootstrapAsync = async () => {
-    const token = await AsyncStorage.getItem(USER_ACCESS_TOKEN);
-
-    // This will switch to the App screen or Auth screen and this loading
-    // screen will be unmounted and thrown away.
-    this.props.navigation.navigate(token ? 'App' : 'Auth');
-  };
-
-  // Render any loading content that you like here
-  render() {
-    return <FullLoading />;
-  }
+function AppNavigator() {
+  return <NavigationContainer>
+    <StatusBar barStyle='default'/>
+    <MyTabs />
+  </NavigationContainer>;
 }
 
-const RootSwitch = createAppContainer(
-  createSwitchNavigator(
-    {
-      Switch: Switch,
-      Auth: AuthStack,
-      App: AppRoutes
-    },
-    {
-      initialRouteName: 'Switch'
-    }
-  )
-);
+const Tab = createBottomTabNavigator();
 
-export default RootSwitch;
+function MyTabs() {
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      tabBarOptions={{
+        activeTintColor: '#e91e63',
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarButton: (props) => <TabComponents icon={HomeIcon} label="Home" {...props} />
+        }}
+      />
+      <Tab.Screen
+        name="Category"
+        component={Category}
+        options={{
+          tabBarButton: (props) => <TabComponents icon={CategoryIcon} label="Category" {...props} />
+        }}
+      />
+      <Tab.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          tabBarButton: (props) => <TabComponents icon={CartIcon} label="Cart" {...props} />
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarButton: (props) => <TabComponents icon={ProfileIcon} label="Profile" {...props} />
+        }}
+      />
+    </Tab.Navigator>
 
-// import React from 'react';
-// import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+  );
+}
 
-// import MainTabNavigator from './MainTabNavigator';
-
-// export default createAppContainer(createSwitchNavigator({
-//   // You could add another route here for authentication.
-//   // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-//   Main: MainTabNavigator,
-// }));
+export default AppNavigator;
