@@ -3,11 +3,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   StatusBar,
-  FlatList
+  FlatList,
+  Dimensions
 } from 'react-native';
 import styled from 'styled-components/native';
 import styledMap, { mapToTheme as theme } from 'styled-map';
 import SafeAreaView from 'react-native-safe-area-view';
+const { W, H } = Dimensions.get('window')
 
 const topSpacing = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
 
@@ -80,7 +82,7 @@ export const Body = styled.Text`
   margin-bottom: ${theme('spacing')};
   margin-top: ${props => props.marginTop || 0};
   opacity: ${props => (props.faded ? 0.6 : 1)};
-  font-family: 'space-mono';
+  font-family: 'HelveticaNeue';
   text-align: ${theme('textAlign')};
   align-self: ${theme('flexAlign')};
   margin-right: ${props =>
@@ -92,7 +94,7 @@ export const Input = styled.TextInput`
   border-bottom-color: ${props => props.theme.colors.shadow};
   border-bottom-width: 1px;
   margin-bottom: ${theme('spacing')};
-  font-family: 'space-mono';
+  font-family: 'HelveticaNeue';
   color: ${theme('colors')}
   width: 260px;
   text-align-vertical: top;
@@ -105,7 +107,7 @@ export const Badge = styled.View`
 `;
 
 export const Heading = styled(Body)`
-  font-family: 'Menlo';
+  font-family: 'HelveticaNeueBold';
 `;
 export const Button = styled.TouchableOpacity`
   align-items: center;
@@ -115,6 +117,7 @@ export const Button = styled.TouchableOpacity`
   width: ${props => props.width || props.theme.layout.width};
   margin-top: ${theme('spacing')};
   margin-right: ${props => props.marginRight ? props.theme.spacing.default : 0};
+  border-radius:20;
 `;
 
 export const HabitSquare = styled.View`

@@ -3,23 +3,34 @@ import { Login, Register, Home, Cart, Category, Profile } from './../screens'
 
 
 import * as React from 'react';
-import { StatusBar, Text, View } from 'react-native';
+import { StatusBar, Text, View, TouchableHighlight } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { Home as HomeIcon, Category as CategoryIcon, Cart as CartIcon, Profile as ProfileIcon, } from './images';
+import { createStackNavigator } from '@react-navigation/stack'
+
+import { Home as HomeIcon, Category as CategoryIcon, Cart as CartIcon, Profile as ProfileIcon, } from './Icons';
 import TabComponents from './Tap'
 
 function AppNavigator() {
   return <NavigationContainer>
-    <StatusBar barStyle='default'/>
-    <MyTabs />
+    <StatusBar barStyle='default' />
+    <StackNativation />
+    {/* <BottomTap /> */}
   </NavigationContainer>;
 }
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
-function MyTabs() {
+function StackNativation() {
+  return <Stack.Navigator initialRouteName="Login">
+    <Stack.Screen name="Login" component={Login}/>
+    <Stack.Screen name="Register" component={Register} />
+  </Stack.Navigator>
+}
+
+function BottomTap() {
   return (
     <Tab.Navigator
       initialRouteName="Home"

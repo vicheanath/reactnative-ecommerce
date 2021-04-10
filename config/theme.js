@@ -15,7 +15,7 @@ const moodColors = {
 const colors = {
   white: '#FFFFFF',
   bg: '#FAFAFA',
-  primary: '#40E0D0',
+  primary: '#e46845',
   default: '#333333',
   placeholder: '#9B9B9B',
   shadow: '#dddddd',

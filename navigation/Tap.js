@@ -20,7 +20,7 @@ const Background = styled(Transitioning.View)`
   margin: 5px 15px;
 `;
 const Label = styled.Text`
-  color: #e46845;
+  color: ${props => props.theme.colors.primary};
   font-weight: 600;
   margin-left: 8px;
   font-family:'HelveticaNeueMedium';
@@ -51,7 +51,7 @@ function TabComponents({ icon, label, accessibilityState, onPress }) {
         ref={ref}
         transition={transition}>
         <View>
-          <Icons color={focused ? activeColor : '#3f3f40'} />
+          <Icons focused={focused} color={focused ? activeColor : '#3f3f40'} />
         </View>
         {focused && (
           <Label label={label}>
