@@ -1,5 +1,5 @@
 
-import { Login, Register, Home, Cart, Category, Profile } from './../screens'
+import { Login, Register, Home, Cart, Category, Profile, SlideDetail } from './../screens'
 
 
 import * as React from 'react';
@@ -9,26 +9,41 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { createStackNavigator } from '@react-navigation/stack'
 
-import { Home as HomeIcon, Category as CategoryIcon, Cart as CartIcon, Profile as ProfileIcon, } from './Icons';
+import { Home as HomeIcon, Category as CategoryIcon, Cart as CartIcon, Profile as ProfileIcon, } from './../components/Icons';
 import TabComponents from './Tap'
+const token = false
+const Tab = createBottomTabNavigator();
+const AuthStack = createStackNavigator();
+const HomeStack = createStackNavigator();
+const CategoryStack = createStackNavigator();
+const CartStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
+
+
+const Auth = () => {
+  return <AuthStack.Navigator initialRouteName="Home">
+    <AuthStack.Screen name="Login" component={Login} />
+    <AuthStack.Screen name="Register" component={Register} />
+
+  </AuthStack.Navigator>
+}
 
 function AppNavigator() {
   return <NavigationContainer>
     <StatusBar barStyle='default' />
-    <StackNativation />
-    {/* <BottomTap /> */}
+    {/* <Auth /> */}
+    <BottomTap />
   </NavigationContainer>;
 }
 
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
-function StackNativation() {
-  return <Stack.Navigator initialRouteName="Login">
-    <Stack.Screen name="Login" component={Login}/>
-    <Stack.Screen name="Register" component={Register} />
-  </Stack.Navigator>
+const HomeRoute = () => {
+  return <HomeStack.Navigator initialRouteName="Home">
+    <HomeStack.Home name="Home" component={Home} headerMod={false} />
+    <HomeStack.Home name="SlideDetail" component={SlideDetail} headerMod={false} />
+  </HomeStack.Navigator>
 }
+
 
 function BottomTap() {
   return (

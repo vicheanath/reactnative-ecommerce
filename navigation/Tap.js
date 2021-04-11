@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components/native';
 import { Transition, Transitioning } from 'react-native-reanimated';
+import { colors, size } from './../config/theme'
 
-// import { Home, Category, Cart, Account, } from './Images';
 import { View } from 'react-native';
 
 const activeColor = '#e46845'
@@ -20,7 +20,7 @@ const Background = styled(Transitioning.View)`
   margin: 5px 15px;
 `;
 const Label = styled.Text`
-  color: ${props => props.theme.colors.primary};
+  color: ${colors.primary};
   font-weight: 600;
   margin-left: 8px;
   font-family:'HelveticaNeueMedium';
